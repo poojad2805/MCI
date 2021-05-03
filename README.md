@@ -1,6 +1,6 @@
 # **Index**
-- [AWS Setup](#Create-3-VMs-(AWS-EC2-Instance)-for-MongoDB,frontend-&-backend)
-- [Jenkins Setup](#Jenkins-Installation-(Linux))
+- [AWS Setup](#Create-3-VMs-[AWS-EC2-Instance]-for-MongoDB,frontend-&-backend)
+- [Jenkins Setup](#Jenkins-Installation-[Linux])
 - [MongoDB setup](#Mongo-DB-on-Linux)
 - [Docker installation](#Docker-Installation)
 - [Docker build & Run Commands](#Post-installation-steps-for-Linux)
@@ -21,7 +21,7 @@ Hello, Please go through the below steps in order to setup MCI native architectu
 4. Jenkins  - This is shared with backend EC2 instance.
 
 ---
-## Create 3 VMs (AWS EC2 Instance) for MongoDB,frontend & backend
+## Create 3 VMs [AWS EC2 Instance] for MongoDB,frontend & backend
 
 This step is common for creating frontend, backend & mongodb instance. Following steps will help you setup AWS ec2 instance for configuring required VMs. Please create three instances by following below steps.
 
@@ -482,7 +482,7 @@ Jenkins is a free and open source automation server. It helps automate the parts
  - Operating System : Linux 
 
 
-### Jenkins Installation (Linux)
+### Jenkins Installation [Linux]
 
 We are installing jenkins on same instance of backend but you can have seperate instance as well. Please check [this link](https://www.linuxtechi.com/install-configure-jenkins-ubuntu-20-04/) to setup Jenkins on ubuntu 20.04
 
