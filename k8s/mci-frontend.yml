@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: mci-frontend
+  name: mci-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mci-frontend
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: mci-frontend
+    spec:
+      containers:
+      - image: public.ecr.aws/m0t6v6x5/mci-frontend:3
+        name: mci-frontend
+        imagePullPolicy: Always
+        resources: {}
+        ports:
+          - containerPort: 3080 
+status: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mci-frontend
+  labels:
+    run: mci-frontend
+spec:
+  ports:
+  - port: 80
+    targetPort: 3080
+    protocol: TCP
+  selector:
+    app: mci-frontend
+  type: NodePort

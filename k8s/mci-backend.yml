@@ -1,0 +1,159 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: mci-backend
+  name: mci-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mci-backend
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: mci-backend
+    spec:
+      volumes:
+        - name: mci-backend-secret-files
+          secret:
+            secretName: mci-backend-secret-files
+      containers:
+      - image: public.ecr.aws/m0t6v6x5/mci-backend:2
+        name: mci-backend
+        imagePullPolicy: Always
+        resources: {}
+        ports:
+          - containerPort: 9095
+        volumeMounts:
+          - name: mci-backend-secret-files
+            readOnly: true
+            mountPath: "/opt/nodets-starter/secrets/"
+        env:
+          - name: NODE_ENV
+            valueFrom: 
+              secretKeyRef:
+                name: mci-backend-secret
+                key: NODE_ENV
+          - name: PORT
+            valueFrom: 
+              secretKeyRef:
+                name: mci-backend-secret
+                key: PORT
+          - name: BOOTSTRAP
+            valueFrom: 
+              secretKeyRef:
+                name: mci-backend-secret
+                key: BOOTSTRAP
+          - name: APP_ID
+            valueFrom: 
+              secretKeyRef:
+                name: mci-backend-secret
+                key: APP_ID
+          - name: LOG_LEVEL
+            valueFrom: 
+              secretKeyRef:
+                name: mci-backend-secret
+                key: LOG_LEVEL
+          - name: REQUEST_LIMIT
+            valueFrom: 
+              secretKeyRef:
+                name: mci-backend-secret
+                key: REQUEST_LIMIT
+          - name: SESSION_SECRET
+            valueFrom: 
+              secretKeyRef:
+                name: mci-backend-secret
+                key: SESSION_SECRET
+          - name: OPENAPI_SPEC
+            valueFrom: 
+              secretKeyRef:
+                name: mci-backend-secret
+                key: OPENAPI_SPEC
+          - name: OPENAPI_ENABLE_RESPONSE_VALIDATION
+            valueFrom: 
+              secretKeyRef:
+                name: mci-backend-secret
+                key: OPENAPI_ENABLE_RESPONSE_VALIDATION
+          - name: DB_HOST
+            valueFrom: 
+              secretKeyRef:
+                name: mci-backend-secret
+                key: DB_HOST
+          - name: DB_NAME
+            valueFrom: 
+              secretKeyRef:
+                name: mci-backend-secret
+                key: DB_NAME
+          - name: DB_USERNAME
+            valueFrom: 
+              secretKeyRef:
+                name: mci-backend-secret
+                key: DB_USERNAME
+          - name: DB_PASSWORD
+            valueFrom: 
+              secretKeyRef:
+                name: mci-backend-secret
+                key: DB_PASSWORD
+          - name: MATLS_SSO
+            valueFrom: 
+              secretKeyRef:
+                name: mci-backend-secret
+                key: MATLS_SSO
+          - name: MATLS_API
+            valueFrom: 
+              secretKeyRef:
+                name: mci-backend-secret
+                key: MATLS_API
+          - name: MATLS_DIRAPI
+            valueFrom: 
+              secretKeyRef:
+                name: mci-backend-secret
+                key: MATLS_DIRAPI
+          - name: EMAIL_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: mci-backend-secret
+                key: EMAIL_API_KEY      
+          - name: EMAIL_DOMAIN
+            valueFrom: 
+              secretKeyRef:
+                name: mci-backend-secret
+                key: EMAIL_DOMAIN
+          - name : BASE_URL 
+            valueFrom:
+              secretKeyRef: 
+                name: mci-backend-secret
+                key: BASE_URL
+          - name : TPP_CLIENT 
+            valueFrom:
+              secretKeyRef: 
+                name: mci-backend-secret
+                key: TPP_CLIENT
+          - name : PROXY_URL 
+            valueFrom:
+              secretKeyRef: 
+                name: mci-backend-secret
+                key: PROXY_URL
+status: {}
+
+---
+# externalDNS
+apiVersion: v1
+kind: Service
+metadata:
+  name: mci-backend
+  labels:
+    run: mci-backend
+spec:
+  ports:
+  - port: 80
+    targetPort: 9095
+    protocol: TCP
+  selector:
+    app: mci-backend
+  type: NodePort
+

@@ -1,0 +1,73 @@
+pipeline {
+
+    agent any
+
+    stages {
+        stage('Clone Repositories') {
+            steps {
+                dir ("MCI-Admin") {
+                    git (
+                      url: 'git@github.com:Technoxander-Dev/MCI-Admin.git',
+                      credentialsId: 'jenkins-ci-creds',
+                      branch: "development"
+                    )
+                }
+                dir ("MCI") {
+                    git (
+                      url: 'git@github.com:Technoxander-Dev/MCI.git',
+                      credentialsId: 'jenkins-ci-creds',
+                      branch: "development"
+                    )
+                }
+            }
+        }
+        stage('Build') {
+            steps {
+                dir('MCI-Admin') {
+                    sh '''
+                        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/m0t6v6x5
+                        docker build -t mci-frontend --build-arg base_url=http://k8s-dev-mcibacke-22d09da984-371631921.us-east-2.elb.amazonaws.com .
+                        docker tag mci-frontend:latest public.ecr.aws/m0t6v6x5/mci-frontend:${BUILD_NUMBER}
+                        docker push public.ecr.aws/m0t6v6x5/mci-frontend:${BUILD_NUMBER}
+                    '''
+                }
+                dir('MCI') {
+                    sh '''
+                        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/m0t6v6x5
+                        docker build -t mci-backend .
+                        docker tag mci-backend:latest public.ecr.aws/m0t6v6x5/mci-backend:${BUILD_NUMBER}
+                        docker push public.ecr.aws/m0t6v6x5/mci-backend:${BUILD_NUMBER}
+                    '''
+                }
+            }
+        }
+        stage('Update Image') {
+            steps {
+                dir('MCI-Admin') {
+                    sh 'sed -i s!BUILD_NUMBER!${BUILD_NUMBER}!g k8s/mci-frontend.yml'
+                }
+                dir('MCI') {
+                    sh 'sed -i s!BUILD_NUMBER!${BUILD_NUMBER}!g k8s/mci-backend.yml'
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                dir('MCI-Admin') {
+                    sh 'kubectl apply -f k8s/mci-frontend.yml -n dev'
+                    sh 'kubectl apply -f k8s/ingres-frontend.yml -n dev'
+                }
+                dir('MCI') {
+                    sh 'kubectl apply -f k8s/mci-backend.yml -n dev'
+                    sh 'kubectl apply -f k8s/ingres-backend.yml -n dev'
+                }
+            }
+        }
+        stage('Clean up') {
+            steps {
+                sh 'docker rmi public.ecr.aws/m0t6v6x5/mci-frontend:${BUILD_NUMBER}'
+                sh 'docker rmi public.ecr.aws/m0t6v6x5/mci-backend:${BUILD_NUMBER}'
+            }
+        }
+    }
+}
