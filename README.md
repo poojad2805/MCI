@@ -1,5 +1,5 @@
 # **Index**
-- [AWS Setup](#Create-3-VMs-AWS-EC2-Instance-for-MongoDBfrontend-&-backend)
+- [AWS Setup](#Create-3-VMs-AWS-EC2-Instance-for-MongoDBfrontend--backend)
 - [Jenkins Setup](#Jenkins-Installation-Linux)
 - [MongoDB setup](#Mongo-DB-on-Linux)
 - [Docker installation](#Docker-Installation)
