@@ -1,12 +1,12 @@
 # **Index**
-- [AWS Setup](#Create-3-VMs(AWS-EC2-Instance)for-MongoDB,-frontend-&-backend)
-- [Jenkins Setup](#Jenkins-Installation-[Linux])
+- [AWS Setup](#Create-3-VMs-AWS-EC2-Instance-for-MongoDB,-frontend-&-backend)
+- [Jenkins Setup](#Jenkins-Installation-Linux)
 - [MongoDB setup](#Mongo-DB-on-Linux)
 - [Docker installation](#Docker-Installation)
 - [Docker build & Run Commands](#Post-installation-steps-for-Linux)
 - [Backend Deployment](#Setup-Backend-Deployment-Job)
 - [Frontend Deployment](#Setup-Frontend-Deployment-Job)
-- [Nginx Configurations](#NGINX-Proxy-Setup-[Frontend-&-Backend-Server])
+- [Nginx Configurations](#NGINX-Proxy-Setup-Frontend-&-Backend-Server)
 - [Backend Nginx Conf](#Backend-Nginx-Setup)
 - [Frontend Nginx Conf](#Frontend-Nginx-Setup)
 - [Test the setup](#Check-if-nginx-is-running)
@@ -21,7 +21,7 @@ Hello, Please go through the below steps in order to setup MCI native architectu
 4. Jenkins  - This is shared with backend EC2 instance.
 
 ---
-## Create 3 VMs(AWS EC2 Instance)for MongoDB, frontend & backend
+## Create 3 VMs (AWS EC2 Instance) for MongoDB, frontend & backend
 
 This step is common for creating frontend, backend & mongodb instance. Following steps will help you setup AWS ec2 instance for configuring required VMs. Please create three instances by following below steps.
 
