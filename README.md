@@ -21,7 +21,7 @@ Hello, Please go through the below steps in order to setup MCI native architectu
 4. Jenkins  - This is shared with backend EC2 instance.
 
 ---
-## Create 3 VMs (AWS EC2 Instance) for MongoDB, frontend & backend
+## Create 3 VMs (AWS EC2 Instance) for MongoDB,frontend & backend
 
 This step is common for creating frontend, backend & mongodb instance. Following steps will help you setup AWS ec2 instance for configuring required VMs. Please create three instances by following below steps.
 
